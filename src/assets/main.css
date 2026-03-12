@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body,
+#app {
+  height: 100vh;
+  width: 100%;
+}
+/* 全局滚动条隐藏（仍可滚动） */
+html,
+body {
+  overflow: auto;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE 10+ */
+  -ms-overflow-style: none;
+}
+
+/* Webkit 内核浏览器 (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent; /* 背景透明 */
+}

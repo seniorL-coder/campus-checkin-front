@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>角色管理</h1>
+  <div>学生管理：查看学生状态、导入学生、重置密码</div>
 </template>
 
 <style scoped lang="sass"></style>

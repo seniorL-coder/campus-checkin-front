@@ -2,10 +2,8 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { fetchLoginAPI, fetchLogoutAPI, fetchUserInfoAPI } from '@/api/user'
 import type { loginParamsType, LoginResponseType, UserInfoType } from '@/types/user'
-import type { RouteRecordRaw } from 'vue-router'
 import { constantRoutes } from '@/router/routes'
-import { useRoute, useRouter } from 'vue-router'
-
+import { useRoute, useRouter, type RouteRecordRaw } from 'vue-router'
 
 export const useUserStore = defineStore(
   'user',
@@ -16,8 +14,9 @@ export const useUserStore = defineStore(
     const token = ref('')
     const loginResponseInfo = ref<LoginResponseType>({} as LoginResponseType)
     const userInfo = ref<UserInfoType>({} as UserInfoType)
-    const menuRoutes = ref<RouteRecordRaw[]>([] as RouteRecordRaw[])
-    menuRoutes.value = constantRoutes // 默认静态路由
+    const menuRoutes = ref<RouteRecordRaw[]>(
+      constantRoutes,
+    ) // 侧边菜单只展示布局下的业务子路由
 
     const login = async (userInfo: loginParamsType) => {
       const res = await fetchLoginAPI(userInfo)
@@ -34,7 +33,6 @@ export const useUserStore = defineStore(
     }
     const getUserInfo = async (id: number) => {
       const res = await fetchUserInfoAPI(id)
-      console.log(res)
       userInfo.value = res
     }
     // 删除token
@@ -57,6 +55,8 @@ export const useUserStore = defineStore(
     }
   },
   {
-    persist: true,
+    persist: {
+      pick: ['token', 'loginResponseInfo', 'userInfo'],
+    },
   },
 )

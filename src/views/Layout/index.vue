@@ -5,6 +5,7 @@ import MenuComponent from '@/views/Layout/components/Menu/index.vue'
 import PageHeaderCom from '@/views/Layout/components/PageHeader/index.vue'
 import { useLayoutSettingStore } from '@/stores/setting.ts'
 import { nextTick, ref, watch } from 'vue'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 const userStore = useUserStore()
 const layoutSettingStore = useLayoutSettingStore()
@@ -49,11 +50,13 @@ watch(
       ></el-header>
       <el-main class="mt-4!">
         <el-card>
-          <Transition name="slide-fade" appear>
+          <el-config-provider :locale="zhCn">
             <RouterView v-slot="{ Component }">
-              <component :is="Component" v-if="refreshFlag" />
+              <Transition name="slide-fade" appear>
+                <component :is="Component" v-if="refreshFlag" :key="$route.fullPath" />
+              </Transition>
             </RouterView>
-          </Transition>
+          </el-config-provider>
         </el-card>
       </el-main>
     </el-container>
@@ -88,7 +91,7 @@ watch(
   transform: translateX(-100%) // 从左滑入
 
 .slide-fade-enter-active
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-out
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-out
 
 .slide-fade-enter-to
   opacity: 1
@@ -102,7 +105,7 @@ watch(
 
 .slide-fade-leave-active
   position: absolute
-  transition: opacity 1s ease-in
+  transition: opacity 0.3s ease-in
 
 .slide-fade-leave-to
   opacity: 0

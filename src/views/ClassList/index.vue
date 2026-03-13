@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>品牌管理</h1>
+  <div>班级管理：增删改查班级信息</div>
 </template>
 
 <style scoped lang="sass"></style>

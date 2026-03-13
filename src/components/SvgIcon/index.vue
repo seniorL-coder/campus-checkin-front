@@ -4,7 +4,7 @@ defineProps({
     type: String,
     default: '#icon-',
   },
-  name: {
+  name1: {
     type: String,
     default: '',
   },
@@ -24,7 +24,7 @@ defineProps({
 </script>
 <template>
   <svg class="svg-icon">
-    <use :href="prefix + name" :fill="color" :width="width" :height="height" />
+    <use :href="prefix + name1" :fill="color" :width="width" :height="height" />
   </svg>
 </template>
 <style scoped lang="sass">

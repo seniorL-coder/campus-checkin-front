@@ -38,7 +38,7 @@ request.interceptors.response.use(
     Nprogress.done()
     loadingInstance?.close()
    if(response.code === 1) {
-    return response.data as T
+    return response as T
    }else{
     ElMessage.error(response.msg)
     return Promise.reject(response.msg)

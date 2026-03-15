@@ -2,7 +2,7 @@ import { request } from '@/utils/request.ts'
 import type { loginParamsType, LoginResponseType, UserInfoType } from '@/types/user'
 
 export const fetchLoginAPI = (data: loginParamsType) => {
-  return request<loginParamsType, LoginResponseType>({
+  return request<LoginResponseType>({
     method: 'POST',
     url: '/user/login',
     data,

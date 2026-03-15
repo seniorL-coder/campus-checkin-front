@@ -19,10 +19,11 @@ export const useUserStore = defineStore(
     ) // 侧边菜单只展示布局下的业务子路由
 
     const login = async (userInfo: loginParamsType) => {
-      const res = await fetchLoginAPI(userInfo)
-      if (res.role === 1) {
-        loginResponseInfo.value = res
-        token.value = res.token
+      const { data } = await fetchLoginAPI(userInfo)
+
+      if (data.role === 1) {
+        loginResponseInfo.value = data
+        token.value = data.token
         const redirect = route.query.redirect as string
         router.push(redirect || '/')
       } else {

@@ -36,22 +36,24 @@ const { menuList } = defineProps(['menuList'])
     </template>
   </template>
 </template>
-
 <style scoped lang="scss">
-/* 1. 针对没有子菜单的普通项：因为是根节点，直接写类名，不要用 :deep 包裹外层 */
-.el-menu-item.is-active {
-  background-color: rgba(from var(--el-menu-active-color) r g b / 0.15) !important;
-  border-left: 3px solid var(--el-menu-active-color) !important;
-  color: var(--el-menu-active-color) !important;
-}
+  /* 1. 只针对真正的叶子菜单项（没有子菜单的项）进行高亮 */
+  /* 这样当子项激活时，样式只会加在子项自己身上，不会影响父级 */
+  .el-menu-item.is-active {
+    background-color: rgba(from var(--el-menu-active-color) r g b / 0.15) !important;
+    border-left: 3px solid var(--el-menu-active-color) !important;
+    color: var(--el-menu-active-color) !important;
+  }
 
-/* 2. 针对有子菜单的父级项：el-sub-menu 是根节点(不用deep)，但它内部的标题 el-sub-menu__title 是组件内部生成的(需要deep) */
-.el-sub-menu.is-opened > :deep(.el-sub-menu__title) {
-  background-color: rgba(from var(--el-menu-active-color) r g b / 0.1);
-}
+  /* 2. 针对父级项：只保留“展开时”的微弱背景色（可选） */
+  /* 如果你连展开时的浅色背景也不想要，这段也可以删掉 */
+  .el-sub-menu.is-opened > :deep(.el-sub-menu__title) {
+    background-color: rgba(from var(--el-menu-active-color) r g b / 0.05);
+  }
 
-/* 3. 如果你想让带子菜单的父级项在激活时文字也高亮： */
-.el-sub-menu.is-active > :deep(.el-sub-menu__title) {
-  color: var(--el-menu-active-color) !important;
-}
-</style>
+  /* 3. 核心改动：显式重置父级在激活态（子项选中时）的文字颜色 */
+  /* 强制让父级标题在子项活跃时保持默认颜色，不跟随主题色 */
+  .el-sub-menu.is-active > :deep(.el-sub-menu__title) {
+    color: var(--el-menu-text-color) !important;
+  }
+  </style>

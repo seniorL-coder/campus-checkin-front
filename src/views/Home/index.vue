@@ -3,9 +3,13 @@ import { useLayoutSettingStore } from '@/stores/setting'
 import { useUserStore } from '@/stores/user.ts'
 import type { LoginResponseType } from '@/types/user'
 import { getTimePeriod } from '@/utils/getTimePeriodUtlis.ts'
-import { watch } from 'vue'
+import { watch, onMounted } from 'vue'
 
 const userStore = useUserStore()
+
+onMounted(async () => { 
+  await userStore.getUserInfo()
+})
 
 watch(
   () => userStore.loginResponseInfo,

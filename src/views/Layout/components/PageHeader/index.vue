@@ -31,8 +31,6 @@
         type: 'warning',
       })
       await userStore.logout(userStore.userInfo.id)
-      // const redirect = route.fullPath
-      // await router.replace({ path: '/login', query: { redirect: redirect } })
       ElMessage.success('退出成功')
     }
   }

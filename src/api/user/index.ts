@@ -1,12 +1,11 @@
 import { request } from '@/utils/request.ts'
 import type { loginParamsType, LoginResponseType, UserInfoType } from '@/types/user'
-import type { ApiResponse } from '@/types/apiResponse'
 
 export const fetchLoginAPI = (data: loginParamsType) => {
   return request<loginParamsType, LoginResponseType>({
     method: 'POST',
-    url: '/user/user/login',
-    data
+    url: '/user/login',
+    data,
   })
 }
 
@@ -14,11 +13,10 @@ export const fetchLoginAPI = (data: loginParamsType) => {
  * index/info
  * 获取用户信息
  */
-export const fetchUserInfoAPI = (id: number) => {
+export const fetchUserInfoAPI = () => {
   return request<unknown, UserInfoType>({
     method: 'POST',
-    url: '/user/user/info',
-    data: { userId: id }
+    url: '/user/info',
   })
 }
 
@@ -29,7 +27,7 @@ export const fetchUserInfoAPI = (id: number) => {
 export const fetchLogoutAPI = (id: number) => {
   return request({
     method: 'POST',
-    url: '/user/user/logout',
-    data: { userId: id }
+    url: '/user/logout',
+    data: { userId: id },
   })
 }

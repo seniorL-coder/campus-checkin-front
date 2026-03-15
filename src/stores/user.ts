@@ -25,23 +25,26 @@ export const useUserStore = defineStore(
         token.value = res.token
         const redirect = route.query.redirect as string
         router.push(redirect || '/')
-        await getUserInfo(res.id)
       } else {
         ElMessage.warning('请使用教师账号登录')
         throw new Error('请使用教师账号登录')
       }
     }
-    const getUserInfo = async (id: number) => {
-      const res = await fetchUserInfoAPI(id)
+    const getUserInfo = async () => {
+      const res = await fetchUserInfoAPI()
       userInfo.value = res
     }
     // 删除token
     const logout = async (id: number) => {
       await fetchLogoutAPI(id)
+      clearUserInfo()
+      window.location.replace('/login')
+    }
+    // 清空个人信息的方法
+    const clearUserInfo =() => {
       token.value = ''
       loginResponseInfo.value = {} as LoginResponseType
       userInfo.value = {} as UserInfoType
-      window.location.replace('/login')
     }
 
     return {
@@ -52,6 +55,7 @@ export const useUserStore = defineStore(
       login,
       getUserInfo,
       logout,
+      clearUserInfo,
     }
   },
   {

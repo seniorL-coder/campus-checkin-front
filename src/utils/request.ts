@@ -22,7 +22,7 @@ request.interceptors.request.use(
     })
     const { token } = storeToRefs(useUserStore())
     if (token.value) {
-      config.headers.token = token.value
+      config.headers.Authorization = token.value
     }
     return config
   },
@@ -50,8 +50,10 @@ request.interceptors.response.use(
     const status = error?.response?.status
     if (status === 401) {
       ElMessage.error('登录失效，请重新登录')
-      await userStore.logout()
-      await router.push('/login')
+
+      userStore.clearUserInfo() // 清除本地token
+
+      router.replace('/login')
       return Promise.reject(error)
     }
     ElMessage.error(error?.message || '网络错误')

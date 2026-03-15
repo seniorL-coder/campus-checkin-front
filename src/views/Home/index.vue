@@ -7,7 +7,7 @@ import { watch, onMounted } from 'vue'
 
 const userStore = useUserStore()
 
-onMounted(async () => { 
+onMounted(async () => {
   await userStore.getUserInfo()
 })
 

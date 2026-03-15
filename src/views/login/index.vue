@@ -3,11 +3,7 @@ import { ref, useTemplateRef } from 'vue'
 import type { loginParamsType } from '@/types/user'
 import  { ElForm } from 'element-plus'
 import { useUserStore } from '@/stores/user.ts'
-import { useRouter, useRoute } from 'vue-router'
 import { User, Lock } from '@element-plus/icons-vue'
-
-const router = useRouter()
-const route = useRoute()
 
 const userStore = useUserStore()
 

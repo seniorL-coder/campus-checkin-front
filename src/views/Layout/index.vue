@@ -10,10 +10,7 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 const userStore = useUserStore()
 const layoutSettingStore = useLayoutSettingStore()
 const refreshFlag = ref(true)
-const getdepts = () => {
-  console.log('getdepts')
-}
-getdepts()
+
 watch(
   () => layoutSettingStore.refresh,
   () => {

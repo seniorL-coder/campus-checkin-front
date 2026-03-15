@@ -4,9 +4,15 @@ import { fetchStudentList } from '@/api/student'
 import type { ClassModel } from '@/types/class'
 import type { StudentModel, StudentQueryDTO } from '@/types/student'
 import { ref } from 'vue'
+import StudentDialog from './components/StudentDialog.vue'
 
 const students = ref<StudentModel[]>([])
 const classesList = ref<ClassModel[]>([])
+
+// 控制弹窗的显示与隐藏
+const isShowDialog = ref(false)
+const mode = ref<'add' |'update'>('add')
+const currentStudent = ref<StudentModel>({} as StudentModel)
 
 const pagination = ref({
   page: 1,
@@ -17,6 +23,7 @@ const pagination = ref({
 })
 const formData = ref({
   realName: '',
+  classId: '',
 })
 const studentQueryDTO = ref<StudentQueryDTO>(
   {
@@ -65,6 +72,12 @@ const handleClassesChange = (n: string | number | boolean) => {
 
 }
 
+const handleAddStudent = () => {
+  isShowDialog.value = true
+  mode.value = 'add'
+
+}
+
 const handleUpdate = (row: StudentModel) => {
 console.log(row)
 
@@ -73,6 +86,11 @@ console.log(row)
 const handleDelete = (row: StudentModel) => {
   console.log(row)
 
+}
+
+const getLastStudentList = () => {
+  studentQueryDTO.value.page = 1
+  getStudentList(studentQueryDTO.value)
 }
 </script>
 
@@ -88,7 +106,7 @@ const handleDelete = (row: StudentModel) => {
           <el-button @click="formData.realName = ''">重置</el-button>
         </el-form-item>
         <el-form-item label="班级: ">
-          <el-select class="w-[160px]!" @change="handleClassesChange">
+          <el-select class="w-[200px]!" @change="handleClassesChange" v-model="formData.classId">
             <el-option
             v-for="item in classesList" :label="item.className" :value="item.id" :key="item.id" />
           </el-select>
@@ -96,6 +114,7 @@ const handleDelete = (row: StudentModel) => {
       </el-form>
     </el-card>
     <el-card class="mt-3!">
+      <el-button class="mb-3!" type="primary" @click="handleAddStudent">添加</el-button>
       <el-table border stripe :data="students">
         <el-table-column type="index" label="#" align="center" />
         <el-table-column label="头像" align="center">
@@ -116,10 +135,18 @@ const handleDelete = (row: StudentModel) => {
         </el-table-column>
 
       </el-table>
-      <el-pagination class="mt-2!" v-model:current-page="pagination.page" v-model:page-size="pagination.pageSize"
-        :page-sizes="pagination.pageSizes" :total="pagination.total"
-        layout="prev, pager, next, jumper, -> ,total, sizes" @change="handlePageChange" />
+      <el-pagination
+      class="mt-2!"
+      v-model:current-page="pagination.page"
+      v-model:page-size="pagination.pageSize"
+      :page-sizes="pagination.pageSizes" :total="pagination.total"
+      layout="prev, pager, next, jumper, -> ,total, sizes" @change="handlePageChange" />
     </el-card>
+    <student-dialog
+     @update:students="getLastStudentList"
+     v-model="isShowDialog"
+     :mode="mode"
+     :row="currentStudent" />
   </div>
 </template>
 

@@ -32,8 +32,9 @@ export const useUserStore = defineStore(
       }
     }
     const getUserInfo = async () => {
-      const res = await fetchUserInfoAPI()
-      userInfo.value = res
+      const  { data } = await fetchUserInfoAPI()
+
+      userInfo.value = data
     }
     // 删除token
     const logout = async (id: number) => {

@@ -108,10 +108,10 @@
               />
             </div>
           </el-popover>
-          <el-avatar :src="userStore.userInfo?.avatar ?? ''" class="mr-2! ml-2!" />
+          <el-avatar :src="userStore.userInfo.avatar ?? ''" class="mr-2! ml-2!" />
           <el-dropdown @command="handleCommand">
             <span>
-              {{ userStore.userInfo?.realName }}
+              {{ userStore.userInfo.realName }}
               <el-icon class="el-icon--right">
                 <arrow-down />
               </el-icon>

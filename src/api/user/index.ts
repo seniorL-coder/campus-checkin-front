@@ -14,7 +14,7 @@ export const fetchLoginAPI = (data: loginParamsType) => {
  * 获取用户信息
  */
 export const fetchUserInfoAPI = () => {
-  return request<unknown, UserInfoType>({
+  return request<UserInfoType>({
     method: 'POST',
     url: '/user/info',
   })

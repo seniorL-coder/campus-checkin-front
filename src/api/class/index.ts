@@ -28,10 +28,22 @@ export const fetchUpdateClasses = (data: UpdateClassesType) => {
  * @param data
  * @returns
  */
-export const fetchCreateCless = (data:CreateClassesType) => {
+export const fetchCreateClasses = (data:CreateClassesType) => {
     return request({
         method:'POST',
         url:'/class',
         data,
+    })
+}
+
+/**
+ * 删除班级
+ * @param id 班级ID
+ * @returns
+ */
+export const fetchDeleteClasses = (id: number) => {
+    return request({
+        method:'DELETE',
+        url:`/class/${id}`,
     })
 }

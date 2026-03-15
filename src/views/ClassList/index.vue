@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { ClassModel } from '@/types/class'
-import { fetchClassesList, fetchCreateCless, fetchUpdateClasses } from '@/api/class'
+import { fetchClassesList, fetchCreateClasses, fetchDeleteClasses, fetchUpdateClasses } from '@/api/class'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 type DialogMode = 'add' | 'update'
@@ -99,7 +99,7 @@ const submitDialog = async () => {
 
    if (dialogMode.value === 'add') {
 
-     await fetchCreateCless({
+     await fetchCreateClasses({
        className: formData.className,
        major: formData.major,
      })
@@ -120,11 +120,10 @@ const submitDialog = async () => {
 }
 
 const handleDelete = async (row: ClassModel) => {
- // TODO: 调用删除班级接口，删除成功后重新加载列表
- // 示例：
- // await deleteClass(row.id)
- // ElMessage.success('删除成功')
- // await loadClassList()
+
+ await fetchDeleteClasses(row.id)
+ ElMessage.success('删除成功')
+ await loadClassList()
 }
 
 onMounted(() => {

@@ -31,7 +31,6 @@ router.beforeEach(async (to) => {
       path: '/login',
       query: { redirect: to.fullPath },
     }
-
   }
 })
 

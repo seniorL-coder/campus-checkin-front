@@ -30,7 +30,8 @@ watch(
       <Logo />
 
       <el-scrollbar class="scrollBar">
-        <el-menu unique-opened
+        <el-menu
+          unique-opened
           :collapse="layoutSettingStore.isCollapse"
           router
           :default-active="$route.path"

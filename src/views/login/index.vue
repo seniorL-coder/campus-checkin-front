@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, useTemplateRef } from 'vue'
 import type { loginParamsType } from '@/types/user'
-import  { ElForm } from 'element-plus'
+import { ElForm } from 'element-plus'
 import { useUserStore } from '@/stores/user.ts'
 import { User, Lock } from '@element-plus/icons-vue'
 
@@ -42,24 +42,18 @@ const onReset = () => {
 <template>
   <div class="w-full h-full overflow-hidden login-container">
     <el-row class="h-full login-bg" align="middle">
-      <el-col :span="10"/>
+      <el-col :span="10" />
       <el-col :span="10" :xs="{ span: 24 }" :offset="3" class="form_container">
         <Transition name="scale-fade" appear>
           <el-card class="el-card is-always-shadow rounded-lg! mx-auto perspective-distant h-80">
             <template #header>
-
               <div class="flex items-center justify-around">
-                <el-image src="/public/logo.svg" alt="logo" class="w-[65px]! h-[65px]!"/>
+                <el-image src="/public/logo.svg" alt="logo" class="w-[65px]! h-[65px]!" />
                 <span class="text-3xl font-bold">campus-checkin-admin</span>
               </div>
             </template>
-            <el-form
-              ref="formRef"
-              :rules="rules"
-              :model="formData"
-              label-position="left"
-            >
-              <el-form-item  prop="username">
+            <el-form ref="formRef" :rules="rules" :model="formData" label-position="left">
+              <el-form-item prop="username">
                 <el-input
                   v-model="formData.username"
                   :prefix-icon="User"
@@ -94,14 +88,14 @@ const onReset = () => {
 <style scoped lang="scss">
 :deep(.el-form-item__content) {
   height: 50px;
-  .el-input{
+  .el-input {
     height: 100%;
   }
 }
-.login-container{
-  background: url(@/assets/images/login_bg.svg) no-repeat  center center;
+.login-container {
+  background: url(@/assets/images/login_bg.svg) no-repeat center center;
   padding: 20px;
-  .login-bg{
+  .login-bg {
     position: relative;
     display: flex;
     align-items: center;
@@ -109,7 +103,7 @@ const onReset = () => {
     width: 100%;
     height: 100%;
     padding: 0 50px;
-    background-color: rgb(from var(--el-bg-color-overlay) r g b / .6);
+    background-color: rgb(from var(--el-bg-color-overlay) r g b / 0.6);
     border-radius: 10px;
   }
 }
@@ -123,13 +117,15 @@ const onReset = () => {
 /* 进入中 & 离开中 */
 .scale-fade-enter-active,
 .scale-fade-leave-active {
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  transition:
+    opacity 0.4s ease-out,
+    transform 0.4s ease-out;
 }
 
 /* 进入完成 & 离开前 */
 .scale-fade-enter-to,
 .scale-fade-leave-from {
   opacity: 1;
-  transform:  scale(1);
+  transform: scale(1);
 }
 </style>

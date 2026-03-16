@@ -14,9 +14,7 @@ export const useUserStore = defineStore(
     const token = ref('')
     const loginResponseInfo = ref<LoginResponseType>({} as LoginResponseType)
     const userInfo = ref<UserInfoType>({} as UserInfoType)
-    const menuRoutes = ref<RouteRecordRaw[]>(
-      constantRoutes,
-    ) // 侧边菜单只展示布局下的业务子路由
+    const menuRoutes = ref<RouteRecordRaw[]>(constantRoutes) // 侧边菜单只展示布局下的业务子路由
 
     const login = async (userInfo: loginParamsType) => {
       const { data } = await fetchLoginAPI(userInfo)
@@ -32,7 +30,7 @@ export const useUserStore = defineStore(
       }
     }
     const getUserInfo = async () => {
-      const  { data } = await fetchUserInfoAPI()
+      const { data } = await fetchUserInfoAPI()
 
       userInfo.value = data
     }
@@ -43,7 +41,7 @@ export const useUserStore = defineStore(
       window.location.replace('/login')
     }
     // 清空个人信息的方法
-    const clearUserInfo =() => {
+    const clearUserInfo = () => {
       token.value = ''
       loginResponseInfo.value = {} as LoginResponseType
       userInfo.value = {} as UserInfoType

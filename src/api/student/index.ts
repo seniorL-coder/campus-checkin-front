@@ -7,12 +7,12 @@ import { request } from '@/utils/request'
  * @param studentQueryDTO
  * @returns
  */
-export const fetchStudentList = (studentQueryDTO : StudentQueryDTO) => {
-   return request<PageLimitType<StudentModel>>({
+export const fetchStudentList = (studentQueryDTO: StudentQueryDTO) => {
+  return request<PageLimitType<StudentModel>>({
     method: 'POST',
     url: '/student/list',
     data: studentQueryDTO,
-   })
+  })
 }
 
 /**
@@ -21,9 +21,9 @@ export const fetchStudentList = (studentQueryDTO : StudentQueryDTO) => {
  * @returns
  */
 export const fetchAddStudent = (data: AddStudentModel) => {
-    return request({
-        method:'POST',
-        url:'/student',
-        data,
-    })
+  return request({
+    method: 'POST',
+    url: '/student',
+    data,
+  })
 }

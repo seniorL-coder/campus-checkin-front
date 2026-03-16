@@ -11,7 +11,7 @@ const classesList = ref<ClassModel[]>([])
 
 // 控制弹窗的显示与隐藏
 const isShowDialog = ref(false)
-const mode = ref<'add' |'update'>('add')
+const mode = ref<'add' | 'update'>('add')
 const currentStudent = ref<StudentModel>({} as StudentModel)
 
 const pagination = ref({
@@ -25,14 +25,12 @@ const formData = ref({
   realName: '',
   classId: '',
 })
-const studentQueryDTO = ref<StudentQueryDTO>(
-  {
-    page: pagination.value.page,
-    limit: pagination.value.pageSize,
-    realName: formData.value.realName,
-    classId: undefined,
-  },
-)
+const studentQueryDTO = ref<StudentQueryDTO>({
+  page: pagination.value.page,
+  limit: pagination.value.pageSize,
+  realName: formData.value.realName,
+  classId: undefined,
+})
 const getStudentList = async (studentQueryDTO: StudentQueryDTO) => {
   const { data } = await fetchStudentList(studentQueryDTO)
   students.value = data.records
@@ -40,7 +38,6 @@ const getStudentList = async (studentQueryDTO: StudentQueryDTO) => {
   pagination.value.page = data.page
   pagination.value.pageSize = data.pageSize
   pagination.value.pages = data.pages
-
 }
 getStudentList(studentQueryDTO.value)
 const handlePageChange = (page: number, limit: number) => {
@@ -60,7 +57,6 @@ const getClassesList = async () => {
   const { data } = await fetchClassesList()
   console.log(data)
   classesList.value = data
-
 }
 getClassesList()
 
@@ -69,23 +65,19 @@ const handleClassesChange = (n: string | number | boolean) => {
   studentQueryDTO.value.page = 1
   studentQueryDTO.value.limit = 5
   getStudentList(studentQueryDTO.value)
-
 }
 
 const handleAddStudent = () => {
   isShowDialog.value = true
   mode.value = 'add'
-
 }
 
 const handleUpdate = (row: StudentModel) => {
-console.log(row)
-
+  console.log(row)
 }
 
 const handleDelete = (row: StudentModel) => {
   console.log(row)
-
 }
 
 const getLastStudentList = () => {
@@ -108,7 +100,11 @@ const getLastStudentList = () => {
         <el-form-item label="班级: ">
           <el-select class="w-[200px]!" @change="handleClassesChange" v-model="formData.classId">
             <el-option
-            v-for="item in classesList" :label="item.className" :value="item.id" :key="item.id" />
+              v-for="item in classesList"
+              :label="item.className"
+              :value="item.id"
+              :key="item.id"
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -130,23 +126,25 @@ const getLastStudentList = () => {
           <template #default="{ row }">
             <el-button type="primary" size="small" @click="handleUpdate(row)">修改</el-button>
             <el-button type="danger" size="small" @click="handleDelete(row)">删除</el-button>
-
           </template>
         </el-table-column>
-
       </el-table>
       <el-pagination
-      class="mt-2!"
-      v-model:current-page="pagination.page"
-      v-model:page-size="pagination.pageSize"
-      :page-sizes="pagination.pageSizes" :total="pagination.total"
-      layout="prev, pager, next, jumper, -> ,total, sizes" @change="handlePageChange" />
+        class="mt-2!"
+        v-model:current-page="pagination.page"
+        v-model:page-size="pagination.pageSize"
+        :page-sizes="pagination.pageSizes"
+        :total="pagination.total"
+        layout="prev, pager, next, jumper, -> ,total, sizes"
+        @change="handlePageChange"
+      />
     </el-card>
     <student-dialog
-     @update:students="getLastStudentList"
-     v-model="isShowDialog"
-     :mode="mode"
-     :row="currentStudent" />
+      @update:students="getLastStudentList"
+      v-model="isShowDialog"
+      :mode="mode"
+      :row="currentStudent"
+    />
   </div>
 </template>
 

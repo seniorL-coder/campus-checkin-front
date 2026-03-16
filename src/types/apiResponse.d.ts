@@ -4,7 +4,7 @@ export interface ApiResponse<T> {
   msg: string
 }
 
-export interface PageLimitType<T>{
+export interface PageLimitType<T> {
   page: number
   pages: number
   pageSize: number

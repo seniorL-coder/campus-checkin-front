@@ -37,12 +37,12 @@ request.interceptors.response.use(
     const response = res.data
     Nprogress.done()
     loadingInstance?.close()
-   if(response.code === 1) {
-    return response as T
-   }else{
-    ElMessage.error(response.msg)
-    return Promise.reject(response.msg)
-   }
+    if (response.code === 1) {
+      return response as T
+    } else {
+      ElMessage.error(response.msg)
+      return Promise.reject(response.msg)
+    }
   },
   async (error) => {
     const userStore = useUserStore()

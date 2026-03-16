@@ -27,6 +27,7 @@ export default defineConfigWithVueTs(
         window: 'readonly',
         requestAnimationFrame: 'readonly',
         ElLoading: 'readonly',
+        fetch: 'readonly'
       },
     },
   },

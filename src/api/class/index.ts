@@ -6,10 +6,10 @@ import { request } from '@/utils/request'
  * @returns 获取班级列表
  */
 export const fetchClassesList = () => {
-    return request<ClassModel[]>({
-        method:'GET',
-        url:'/class/list',
-    })
+  return request<ClassModel[]>({
+    method: 'GET',
+    url: '/class/list',
+  })
 }
 /**
  *
@@ -17,23 +17,23 @@ export const fetchClassesList = () => {
  * @returns
  */
 export const fetchUpdateClasses = (data: UpdateClassesType) => {
-    return request({
-        method:'PUT',
-        url:'/class',
-        data,
-    })
+  return request({
+    method: 'PUT',
+    url: '/class',
+    data,
+  })
 }
 /**
  * 添加班级
  * @param data
  * @returns
  */
-export const fetchCreateClasses = (data:CreateClassesType) => {
-    return request({
-        method:'POST',
-        url:'/class',
-        data,
-    })
+export const fetchCreateClasses = (data: CreateClassesType) => {
+  return request({
+    method: 'POST',
+    url: '/class',
+    data,
+  })
 }
 
 /**
@@ -42,8 +42,8 @@ export const fetchCreateClasses = (data:CreateClassesType) => {
  * @returns
  */
 export const fetchDeleteClasses = (id: number) => {
-    return request({
-        method:'DELETE',
-        url:`/class/${id}`,
-    })
+  return request({
+    method: 'DELETE',
+    url: `/class/${id}`,
+  })
 }

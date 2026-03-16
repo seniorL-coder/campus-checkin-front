@@ -7,3 +7,13 @@ export interface ActivityModel {
   radius: number
   targetClasses: string
 }
+
+export interface ActivityQueryParams {
+  page?: number
+  limit?: number
+  title?: string
+  startTime?: string
+  endTime?: string
+  targetClasses?: string
+  createUserId?: number
+}

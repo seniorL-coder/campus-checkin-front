@@ -7,11 +7,13 @@ import type { ActivityModel } from '@/types/activity'
 import { fetchCreateActicity } from '@/api/activity'
 import type { ClassModel } from '@/types/class'
 import { fetchClassesList } from '@/api/class'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const props = defineProps<{
   initialData?: ActivityModel
 }>()
-let classesList = reactive<ClassModel[]>([])
+const classesList = ref<ClassModel[]>([])
 /** --- 表单相关逻辑 --- **/
 const formRef = ref<FormInstance>()
 const form = reactive({
@@ -34,19 +36,21 @@ const initEditData = (data: ActivityModel) => {
     form.address = `${data.longitude}, ${data.latitude}`
   }
 }
+// 获取班级列表
+const getClassesList = async () => {
+  const { data } = await fetchClassesList()
+  console.log('获取班级', data)
+
+  classesList.value = data
+}
 
 // 模拟页面加载时如果是修改模式
 onMounted(() => {
+  getClassesList()
   if (props.initialData) {
     initEditData(props.initialData)
   }
 })
-// 获取班级列表
-const getClassesList = async () => {
-  const { data } = await fetchClassesList()
-  classesList = data
-}
-getClassesList()
 
 // 2. 自定义校验：结束时间必须晚于开始时间
 const validateEndTime = (rule: any, value: any, callback: any) => {
@@ -110,7 +114,7 @@ const initMap = () => {
         updateLocation(lng, lat)
       })
     })
-    .catch((e) => console.error(e))
+    .catch(() => {})
 }
 
 // 统一更新地图上的视觉元素
@@ -191,8 +195,6 @@ const onSubmit = async () => {
       console.log('执行修改 API (PUT/POST)', form)
       // TODO: 调用修改接口，例如 updateActivity(form.id, form)
     } else {
-      console.log('执行创建 API (POST)', form)
-      // TODO: 调用创建接口
       const data = {
         title: form.title,
         startTime: form.startTime,
@@ -205,6 +207,7 @@ const onSubmit = async () => {
       await fetchCreateActicity(data)
       ElMessage.success('创建成功!')
       formRef.value?.resetFields()
+      router.push('/activity/list')
     }
   }
 }
@@ -284,6 +287,7 @@ const onSubmit = async () => {
       destroy-on-close
     >
       <div class="map-dialog-content">
+        <el-tag class="mb-2!"> ( 滚轮可放大缩小地图, 左键长按拖动地图位置, 点击选点 )</el-tag>
         <div class="map-search-bar">
           <el-input v-model="searchKey" placeholder="输入地址搜索" @keyup.enter="getPosition">
             <template #append>
@@ -291,7 +295,7 @@ const onSubmit = async () => {
             </template>
           </el-input>
         </div>
-        <div id="map-container"></div>
+        <div id="map-container" />
         <div class="map-footer-info">
           当前选中：<el-tag>{{ form.longitude }}</el-tag
           >, <el-tag> {{ form.latitude }}</el-tag> | 半径：<el-tag>{{ form.radius }}</el-tag
@@ -308,11 +312,12 @@ const onSubmit = async () => {
 <style scoped lang="scss">
 .page-wrapper {
   max-width: 800px;
+  min-height: 80vh;
   padding: 20px;
 }
 #map-container {
   width: 100%;
-  height: 450px;
+  min-height: 60vh;
 }
 .map-search-bar {
   margin-bottom: 10px;

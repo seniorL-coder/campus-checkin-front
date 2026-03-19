@@ -55,7 +55,6 @@ const handleSearch = () => {
 
 const getClassesList = async () => {
   const { data } = await fetchClassesList()
-  console.log(data)
   classesList.value = data
 }
 getClassesList()
@@ -98,7 +97,7 @@ const getLastStudentList = () => {
           <el-button @click="formData.realName = ''">重置</el-button>
         </el-form-item>
         <el-form-item label="班级: ">
-          <el-select class="w-[200px]!" @change="handleClassesChange" v-model="formData.classId">
+          <el-select class="w-50!" @change="handleClassesChange" v-model="formData.classId">
             <el-option
               v-for="item in classesList"
               :label="item.className"

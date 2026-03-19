@@ -95,14 +95,14 @@ const initMap = () => {
   if (map) return
 
   AMapLoader.load({
-    key: import.meta.env.VITE_AMAP_KEY || '你的Key',
+    key: import.meta.env.VITE_AMAP_KEY,
     version: '2.0',
   })
     .then((AMap) => {
       AMapInstance = AMap
       map = new AMap.Map('map-container', {
         viewMode: '2D',
-        zoom: 17,
+        zoom: 1,
         center: [form.longitude, form.latitude],
       })
 
@@ -141,6 +141,7 @@ const updateVisuals = (lng: number, lat: number) => {
   map.add(circle)
 
   map.setFitView([circle])
+  map.setZoom(16)
 }
 
 // 监听半径变化，实现修改数值时地图同步回显
@@ -164,17 +165,18 @@ const updateLocation = (lng: number, lat: number) => {
 
 const getPosition = async () => {
   if (!searchKey.value) return
+
   try {
     const response = await fetch(
-      `https://restapi.amap.com/v3/geocode/geo?key=你的Web服务Key&address=${searchKey.value}`,
+      `https://restapi.amap.com/v3/geocode/geo?key=${import.meta.env.VITE_AMAP_SEARCH_ADDRESS_KEY}&address=${searchKey.value}`,
     )
     const res = await response.json()
     if (res.geocodes?.length > 0) {
       const [lng, lat] = res.geocodes[0].location.split(',').map(Number)
       updateLocation(lng, lat)
     }
-  } catch (error) {
-    console.error('搜索失败:', error)
+  } catch (e) {
+    ElMessage.error('地点查询失败')
   }
 }
 

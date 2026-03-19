@@ -45,6 +45,7 @@ request.interceptors.response.use(
     }
   },
   async (error) => {
+    loadingInstance?.close()
     const userStore = useUserStore()
     // 网络或服务器错误
     const status = error?.response?.status

@@ -41,7 +41,7 @@ request.interceptors.response.use(
       return response as T
     } else {
       ElMessage.error(response.msg)
-      return Promise.reject(response.msg)
+      return Promise.reject(response)
     }
   },
   async (error) => {

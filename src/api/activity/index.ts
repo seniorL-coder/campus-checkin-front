@@ -51,3 +51,23 @@ export const fetchUpdateActivity = (data: UpdateActivityParams) => {
     data,
   })
 }
+
+/**
+ * 获取签到链接
+ */
+export const fetchGetSignInLink = (data: { activityId: number }) => {
+  return request({
+    method: 'POST',
+    url: '/activity/sign',
+    data,
+  })
+}
+/**
+ * 初始化签到列表
+ */
+export const fetchInitSignInList = (id: number) => {
+  return request({
+    method: 'POST',
+    url: `/activity/initCheckIn/${id}`,
+  })
+}

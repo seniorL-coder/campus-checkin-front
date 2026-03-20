@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessageBox, ElMessage } from 'element-plus'
-import { fetchActivityList } from '@/api/activity/index'
+import { fetchActivityList, fetchStatusToEnd } from '@/api/activity/index'
 import type { ActivityModel, ActivityQueryParams } from '@/types/activity/index'
 import { useRouter } from 'vue-router'
 import QrCode from './QrCode/index.vue'
 const router = useRouter()
 // 2. 响应式数据
 const total = ref(0)
-const tableData = ref<any[]>([]) // 建议在此处定义具体的接口类型
+const tableData = ref<ActivityModel[]>([]) // 建议在此处定义具体的接口类型
 const dateRange = ref<[string, string] | []>([])
 
 const isShowQrCode = ref(false)
@@ -86,8 +86,18 @@ const handleDelete = (row: any) => {
     getList()
   })
 }
-
-const handleCheckIn = (row: ActivityModel) => {
+const handleStatusTOEnd = (row: ActivityModel) => {
+  ElMessageBox.confirm(`确定要结束签到活动 "${row.title}" 吗?`, '警告', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(async () => {
+    await fetchStatusToEnd(row.id!)
+    ElMessage.success('活动已结束')
+    getList()
+  })
+}
+const handleCheckIn = async (row: ActivityModel) => {
   isShowQrCode.value = true
   console.log(row)
 }
@@ -170,7 +180,15 @@ onMounted(() => {
               >签到</el-button
             >
             <el-button
-              v-if="row.status != 2"
+              v-if="row.status === 1"
+              link
+              type="warning"
+              icon="SwitchButton"
+              @click="handleStatusTOEnd(row)"
+              >结束</el-button
+            >
+            <el-button
+              v-if="row.status !== 2"
               link
               type="primary"
               icon="Edit"

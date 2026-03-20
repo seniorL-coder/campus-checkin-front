@@ -5,12 +5,30 @@ import MenuComponent from '@/views/Layout/components/Menu/index.vue'
 import PageHeaderCom from '@/views/Layout/components/PageHeader/index.vue'
 import { useLayoutSettingStore } from '@/stores/setting.ts'
 import { nextTick, ref, watch } from 'vue'
+import type { LoginResponseType } from '@/types/user'
+import { getTimePeriod } from '@/utils/getTimePeriodUtlis.ts'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 const userStore = useUserStore()
 const layoutSettingStore = useLayoutSettingStore()
 const refreshFlag = ref(true)
 
+watch(
+  () => userStore.loginResponseInfo,
+  (val: LoginResponseType) => {
+    const name = val.realName
+    if (!name) return
+
+    ElNotification({
+      title: name,
+      message: `欢迎回来！${getTimePeriod(Date.now())}好！`,
+      type: 'success',
+    })
+  },
+  {
+    immediate: true,
+  },
+)
 watch(
   () => layoutSettingStore.refresh,
   () => {
@@ -20,6 +38,26 @@ watch(
     nextTick(() => {
       refreshFlag.value = true
     })
+  },
+)
+watch(
+  () => layoutSettingStore.isDark,
+  () => {
+    if (layoutSettingStore.isDark) {
+      ElNotification({
+        title: '夜间模式',
+        message: '已切换到夜间模式，人们都说夜晚是创造力的源泉，希望你在夜间模式下有更多的灵感！',
+        type: 'success',
+        position: 'bottom-right',
+      })
+    } else {
+      ElNotification({
+        title: '日间模式',
+        message: '已切换到日间模式，祝你有个愉快的一天！',
+        type: 'success',
+        position: 'bottom-right',
+      })
+    }
   },
 )
 </script>

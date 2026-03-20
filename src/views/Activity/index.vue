@@ -5,13 +5,15 @@ import { fetchActivityList, fetchStatusToEnd } from '@/api/activity/index'
 import type { ActivityModel, ActivityQueryParams } from '@/types/activity/index'
 import { useRouter } from 'vue-router'
 import QrCode from './QrCode/index.vue'
+import UpdateActivity from './components/updateActivity.vue'
 const router = useRouter()
 // 2. 响应式数据
 const total = ref(0)
 const tableData = ref<ActivityModel[]>([]) // 建议在此处定义具体的接口类型
 const dateRange = ref<[string, string] | []>([])
-
+const currentUpdateActivity = ref<ActivityModel>({} as ActivityModel) // 当前正在编辑的活动
 const isShowQrCode = ref(false)
+const isShowUpdateDialog = ref(false)
 
 const queryParams = reactive<ActivityQueryParams>({
   page: 1,
@@ -72,11 +74,12 @@ const handleAdd = () => {
   router.push('/activity/create')
 }
 
-const handleUpdate = (row: any) => {
-  ElMessage.info(`修改活动 ID: ${row.id}`)
+const handleUpdate = (row: ActivityModel) => {
+  isShowUpdateDialog.value = true
+  currentUpdateActivity.value = { ...row }
 }
 
-const handleDelete = (row: any) => {
+const handleDelete = (row: ActivityModel) => {
   ElMessageBox.confirm(`确认删除活动 "${row.title}" 吗?`, '警告', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -222,6 +225,7 @@ onMounted(() => {
       </div>
     </el-card>
     <QrCode v-model="isShowQrCode" />
+    <UpdateActivity :row-data="currentUpdateActivity" v-model="isShowUpdateDialog" />
   </div>
 </template>
 

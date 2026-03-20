@@ -1,4 +1,4 @@
-import type { ActivityModel, ActivityQueryParams } from '@/types/activity'
+import type { ActivityModel, ActivityQueryParams, UpdateActivityParams } from '@/types/activity'
 import type { PageLimitType } from '@/types/apiResponse'
 import { request } from '@/utils/request'
 
@@ -28,11 +28,26 @@ export const fetchActivityList = (data: ActivityQueryParams) => {
   })
 }
 
-// 修改活动状态为已结束
-// /admin/activity/status/end/{id}
+/**
+ * 结束活动
+ * @param id
+ * @returns
+ */
 export const fetchStatusToEnd = (id: number) => {
   return request({
     method: 'GET',
     url: `/activity/status/end/${id}`,
+  })
+}
+
+/**
+ * 更新活动信息
+ * @param data
+ */
+export const fetchUpdateActivity = (data: UpdateActivityParams) => {
+  return request({
+    method: 'PUT',
+    url: '/activity',
+    data,
   })
 }

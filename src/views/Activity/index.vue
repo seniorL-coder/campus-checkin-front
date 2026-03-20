@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessageBox, ElMessage } from 'element-plus'
-import { fetchActivityList, fetchStatusToEnd } from '@/api/activity/index'
+import { fetchActivityList } from '@/api/activity/index'
 import type { ActivityModel, ActivityQueryParams } from '@/types/activity/index'
 import { useRouter } from 'vue-router'
 import QrCode from './QrCode/index.vue'
@@ -14,6 +14,8 @@ const dateRange = ref<[string, string] | []>([])
 const currentUpdateActivity = ref<ActivityModel>({} as ActivityModel) // 当前正在编辑的活动
 const isShowQrCode = ref(false)
 const isShowUpdateDialog = ref(false)
+// 当前签到活动id
+const currentCheckInActivityId = ref<number | null>(null)
 
 const queryParams = reactive<ActivityQueryParams>({
   page: 1,
@@ -80,29 +82,23 @@ const handleUpdate = (row: ActivityModel) => {
 }
 
 const handleDelete = (row: ActivityModel) => {
-  ElMessageBox.confirm(`确认删除活动 "${row.title}" 吗?`, '警告', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning',
-  }).then(() => {
+  ElMessageBox.confirm(
+    `删除后将同步删除该活动的所有相关数据，请再次确认是否删除活动 "${row.title}" ?`,
+    '警告',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    },
+  ).then(() => {
     ElMessage.success('删除成功')
     getList()
   })
 }
-const handleStatusTOEnd = (row: ActivityModel) => {
-  ElMessageBox.confirm(`确定要结束签到活动 "${row.title}" 吗?`, '警告', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning',
-  }).then(async () => {
-    await fetchStatusToEnd(row.id!)
-    ElMessage.success('活动已结束')
-    getList()
-  })
-}
+
 const handleCheckIn = async (row: ActivityModel) => {
   isShowQrCode.value = true
-  console.log(row)
+  currentCheckInActivityId.value = row.id!
 }
 onMounted(() => {
   getList()
@@ -182,16 +178,9 @@ onMounted(() => {
               @click="handleCheckIn(row)"
               >签到</el-button
             >
+
             <el-button
-              v-if="row.status === 1"
-              link
-              type="warning"
-              icon="SwitchButton"
-              @click="handleStatusTOEnd(row)"
-              >结束</el-button
-            >
-            <el-button
-              v-if="row.status !== 2"
+              v-if="row.status === 0"
               link
               type="primary"
               icon="Edit"
@@ -199,7 +188,8 @@ onMounted(() => {
               >修改</el-button
             >
             <el-popconfirm
-              title="删除将同步删除所有相关数据，确定删除吗？"
+              v-if="row.status === 0 || row.status === 2"
+              title="确定删除吗？"
               confirm-button-text="确定"
               cancel-button-text="取消"
               @confirm="handleDelete(row)"
@@ -224,8 +214,12 @@ onMounted(() => {
         />
       </div>
     </el-card>
-    <QrCode v-model="isShowQrCode" />
-    <UpdateActivity :row-data="currentUpdateActivity" v-model="isShowUpdateDialog" />
+    <QrCode v-model="isShowQrCode" :get-list="getList" :activity-id="currentCheckInActivityId" />
+    <UpdateActivity
+      @refresh-list="getList()"
+      :row-data="currentUpdateActivity"
+      v-model="isShowUpdateDialog"
+    />
   </div>
 </template>
 

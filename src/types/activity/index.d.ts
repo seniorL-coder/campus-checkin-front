@@ -23,3 +23,16 @@ export interface ActivityQueryParams {
   targetClasses?: string
   createUserId?: number
 }
+
+export interface UpdateActivityParams {
+  id: number
+  title?: string
+  startTime?: string
+  endTime?: string
+  // longitude?: number
+  // latitude?: number
+  // radius?: number
+  // targetClassesName?: string
+  // targetClasses?: string
+  // status?: 0 | 1 | 2
+}

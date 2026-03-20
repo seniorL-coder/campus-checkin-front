@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { ActivityModel } from '@/types/activity'
+import { fetchUpdateActivity } from '@/api/activity'
 
 // 定义接口
 interface ActivityDTO {
@@ -10,6 +11,8 @@ interface ActivityDTO {
   startTime: string
   endTime: string
 }
+
+const emits = defineEmits(['refreshList'])
 
 // 使用 defineModel 绑定弹窗显示状态和数据行
 const visible = defineModel<boolean>()
@@ -36,7 +39,7 @@ watch(
 
 // 自定义校验：结束时间 > 开始时间
 const validateTimeRange = (_rule: any, value: string, callback: any) => {
-  if (!value) return callback(new Error('请选择时间'))
+  // if (!value) return callback(new Error('请选择时间'))
 
   const start = new Date(formData.value.startTime).getTime()
   const end = new Date(value).getTime()
@@ -49,8 +52,8 @@ const validateTimeRange = (_rule: any, value: string, callback: any) => {
 }
 
 const rules: FormRules = {
-  title: [{ required: true, message: '必填', trigger: 'blur' }],
-  startTime: [{ required: true, message: '必填', trigger: 'change' }],
+  // title: [{ required: true, message: '必填', trigger: 'blur' }],
+  // startTime: [{ required: true, message: '必填', trigger: 'change' }],
   endTime: [{ validator: validateTimeRange, trigger: 'change' }],
 }
 
@@ -63,11 +66,24 @@ const handleClose = () => {
 }
 
 const handleSubmit = async () => {
-  await formRef.value?.validate((valid) => {
+  await formRef.value?.validate(async (valid) => {
     if (valid) {
       console.log('提交给后端的数据:', formData.value)
+      // 表单必须存在一个值
+      if ((!formData.value.title.trim() && !formData.value.startTime) || !formData.value.endTime) {
+        ElMessage.error('请正确修改')
+        return
+      }
+      await fetchUpdateActivity({
+        id: rowData.rowData.id, // 这里直接使用 rowData 的 id，确保更新的是正确的活动
+        title: formData.value.title,
+        startTime: formData.value.startTime,
+        endTime: formData.value.endTime,
+      })
       visible.value = false
-      // 此处可以 emit 一个刷新列表的事件
+      //  emit 一个刷新列表的事件
+      emits('refreshList')
+      ElMessage.success('活动更新成功')
     }
   })
 }

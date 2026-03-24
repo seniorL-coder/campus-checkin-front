@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { dayjs, ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Edit } from '@element-plus/icons-vue'
 import type { CheckInVO, CheckInQueryDTO } from '@/types/checkIn/index'
 import { fetchRecordList, fetchUpdateCheckInStatus } from '@/api/record'

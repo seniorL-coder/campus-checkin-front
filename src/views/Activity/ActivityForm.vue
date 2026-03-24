@@ -39,8 +39,6 @@ const initEditData = (data: ActivityModel) => {
 // 获取班级列表
 const getClassesList = async () => {
   const { data } = await fetchClassesList()
-  console.log('获取班级', data)
-
   classesList.value = data
 }
 
@@ -175,7 +173,7 @@ const getPosition = async () => {
       const [lng, lat] = res.geocodes[0].location.split(',').map(Number)
       updateLocation(lng, lat)
     }
-  } catch (e) {
+  } catch {
     ElMessage.error('地点查询失败')
   }
 }

@@ -25,7 +25,7 @@ const getQrUrl = async () => {
   if (!props.activityId) return
   try {
     const res = await fetchGetSignInLink({ activityId: props.activityId })
-    qrUrl.value = res.data
+    qrUrl.value = 'http://localhost:5173/checkIn' + res.data
   } catch {
     ElMessage.error('获取二维码失败')
   }
@@ -90,7 +90,7 @@ watch(
       <div
         class="relative w-100 h-100 flex items-center justify-center border border-gray-200 rounded-lg"
       >
-        <qrcode-vue :value="qrUrl" :size="360" level="H" />
+        <qrcode-vue :value="qrUrl" :size="360" level="M" />
 
         <div
           v-if="!isCurrentInitialized"

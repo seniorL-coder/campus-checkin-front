@@ -7,7 +7,7 @@ import { request } from '@/utils/request'
  * @param data
  * @returns
  */
-export const fetchCreateActicity = (data: ActivityModel) => {
+export const fetchCreateActicity = (data: any) => {
   return request({
     method: 'POST',
     url: '/activity/create',

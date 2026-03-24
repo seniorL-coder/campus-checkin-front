@@ -3,7 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Edit } from '@element-plus/icons-vue'
 import type { CheckInVO, CheckInQueryDTO } from '@/types/checkIn/index'
-import { fetchRecordList } from '@/api/record'
+import { fetchRecordList, fetchUpdateCheckInStatus } from '@/api/record'
 
 // --- 状态变量 ---
 const loading = ref(false)
@@ -17,12 +17,9 @@ const queryParams = reactive<CheckInQueryDTO>({
   activityTitle: '',
 })
 
-const updateStatusApi = async (id: number, status: number) => {
-  console.log(`Updating ID: ${id} to Status: ${status}`)
-  return { success: true }
+const updateStatusApi = async (params: { userId: number; activityId: number; status: string }) => {
+  await fetchUpdateCheckInStatus(params)
 }
-
-// --- 逻辑处理 ---
 
 // 获取列表数据
 const handleQuery = async () => {
@@ -53,7 +50,7 @@ const handleUpdateStatus = (row: CheckInVO) => {
     inputPattern: /^[0-3]$/,
     inputErrorMessage: '状态码必须是 0-3 之间的数字',
   }).then(async ({ value }) => {
-    await updateStatusApi(row.id, parseInt(value))
+    await updateStatusApi({ userId: row.userId, activityId: row.activityId, status: value })
     ElMessage.success('状态更新成功')
     handleQuery()
   })

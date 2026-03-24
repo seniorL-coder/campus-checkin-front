@@ -72,9 +72,6 @@ const getStatusLabel = (status: number) => {
 onMounted(() => {
   handleQuery()
 
-  const token = useUserStore().token
-  wsService.connect(token)
-
   // 监听后端发送的 JSON，type 匹配则触发回调
   wsService.on<any>('STUDENT_SIGNED_IN', (data) => {
     // data 结构参考后端：{ userId: 123, activityId: 456, checkTime: "2023-..." }

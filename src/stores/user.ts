@@ -4,7 +4,6 @@ import { fetchLoginAPI, fetchLogoutAPI, fetchUserInfoAPI } from '@/api/user'
 import type { loginParamsType, LoginResponseType, UserInfoType } from '@/types/user'
 import { constantRoutes } from '@/router/routes'
 import { useRoute, useRouter, type RouteRecordRaw } from 'vue-router'
-
 export const useUserStore = defineStore(
   'user',
   () => {
@@ -34,6 +33,7 @@ export const useUserStore = defineStore(
 
       userInfo.value = data
     }
+
     // 删除token
     const logout = async (id: number) => {
       await fetchLogoutAPI(id)

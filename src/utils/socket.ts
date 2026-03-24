@@ -30,6 +30,8 @@ class NativeSocketService {
     this.ws.onmessage = (event) => {
       try {
         const msg: SocketMsg = JSON.parse(event.data)
+        console.log(msg)
+
         this.dispatchEvent(msg)
       } catch (e) {
         console.warn('收到非 JSON 消息:', event.data)

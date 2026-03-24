@@ -26,26 +26,13 @@ export const constantRoutes: RouteRecordRaw[] = [
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('@/views/Layout/index.vue'),
-    redirect: '/dashboard/index',
+    name: 'Odometer',
+    component: () => import('@/views/Dashboard/index.vue'),
     meta: {
-      title: '',
-      icon: '',
+      title: '控制台',
+      icon: 'Odometer',
       hidden: false,
     },
-    children: [
-      {
-        path: '/dashboard/index',
-        name: 'Odometer',
-        component: () => import('@/views/Dashboard/index.vue'),
-        meta: {
-          title: '控制台',
-          icon: 'Odometer',
-          hidden: false,
-        },
-      },
-    ],
   },
   {
     path: '/class',

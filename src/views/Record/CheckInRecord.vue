@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { dayjs, ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh, Edit } from '@element-plus/icons-vue'
 import type { CheckInVO, CheckInQueryDTO } from '@/types/checkIn/index'
 import { fetchRecordList, fetchUpdateCheckInStatus } from '@/api/record'
-
+import wsService from '@/utils/socket'
+import { useUserStore } from '@/stores/user'
+import moment from 'moment'
 // --- 状态变量 ---
 const loading = ref(false)
 const tableData = ref<CheckInVO[]>([])
@@ -69,6 +71,22 @@ const getStatusLabel = (status: number) => {
 
 onMounted(() => {
   handleQuery()
+
+  const token = useUserStore().token
+  wsService.connect(token)
+
+  // 监听后端发送的 JSON，type 匹配则触发回调
+  wsService.on<any>('STUDENT_SIGNED_IN', (data) => {
+    // data 结构参考后端：{ userId: 123, activityId: 456, checkTime: "2023-..." }
+    ElNotification({
+      title: '新签到提醒',
+      // 使用模板字符串组装消息内容
+      message: `学生 ID: ${data.userId} 已于 ${moment(data.checkTime).format('YYYY-MM-DD HH:mm:ss')} 签到成功`,
+      type: 'success', // 成功的绿色样式
+      position: 'top-right', // 屏幕右上角出现
+      duration: 2000, // 3秒后自动关闭
+    })
+  })
 })
 </script>
 

@@ -28,6 +28,9 @@ export default defineConfigWithVueTs(
         requestAnimationFrame: 'readonly',
         ElLoading: 'readonly',
         fetch: 'readonly',
+        HTMLElement: 'readonly',
+        clearTimeout: 'readonly',
+        WebSocket: 'readonly'
       },
     },
   },

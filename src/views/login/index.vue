@@ -48,11 +48,7 @@ const onReset = () => {
           <el-card class="el-card is-always-shadow rounded-lg! mx-auto perspective-distant h-80">
             <template #header>
               <div class="flex items-center justify-around">
-                <el-image
-                  src="/campus-checkin/public/logo.svg"
-                  alt="logo"
-                  class="w-[65px]! h-[65px]!"
-                />
+                <el-image src="/campus-checkin/logo.svg" alt="logo" class="w-[65px]! h-[65px]!" />
                 <span class="text-3xl font-bold">campus-checkin-admin</span>
               </div>
             </template>

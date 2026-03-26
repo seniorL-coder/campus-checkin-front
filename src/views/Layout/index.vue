@@ -115,7 +115,6 @@ watch(
   border-right: none
 .el-menu
   border-right: none
-:deep(.is-active)
 
 :deep(.el-main)
   height: calc(100vh - 16px - 60px)

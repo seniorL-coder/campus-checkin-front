@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { constantRoutes } from '@/router/routes.ts'
-import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

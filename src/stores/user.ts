@@ -38,7 +38,7 @@ export const useUserStore = defineStore(
     const logout = async (id: number) => {
       await fetchLogoutAPI(id)
       clearUserInfo()
-      window.location.replace('/login')
+      window.location.replace('/campus-checkin/login')
     }
     // 清空个人信息的方法
     const clearUserInfo = () => {

@@ -14,7 +14,7 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import ElementPlus from 'unplugin-element-plus/vite'
 // https://vite.dev/config/
 export default defineConfig({
-
+  base:'/campus-checkin',
   plugins: [
     vue(),
 

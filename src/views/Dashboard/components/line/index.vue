@@ -1,7 +1,7 @@
 <template>
   <div class="line-box">
     <div class="title">
-      <p>未来七天游客数量趋势图</p>
+      <p>七天数量趋势图</p>
       <img :src="titleImg" alt="" />
     </div>
     <div class="charts" ref="charts" />

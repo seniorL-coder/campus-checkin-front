@@ -25,11 +25,28 @@ const getQrUrl = async () => {
   if (!props.activityId) return
   try {
     const res = await fetchGetSignInLink({ activityId: props.activityId })
-    qrUrl.value = 'http://localhost:5173/checkIn' + res.data
+    qrUrl.value = 'https://bytedancetech.site/campus-checkin-h5/checkIn' + res.data
   } catch {
     ElMessage.error('获取二维码失败')
   }
 }
+
+// 50s 轮询 动态更新二维码链接，确保用户扫码时链接有效
+let qrInterval: number | null = null
+watch(
+  () => visible.value,
+  (newVal) => {
+    if (newVal) {
+      getQrUrl()
+      qrInterval = window.setInterval(getQrUrl, 50000) // 每50秒刷新一次二维码链接
+    } else {
+      if (qrInterval) {
+        clearInterval(qrInterval)
+        qrInterval = null
+      }
+    }
+  },
+)
 
 const handleInitList = async () => {
   if (!props.activityId) return ElMessage.warning('无效的活动ID')

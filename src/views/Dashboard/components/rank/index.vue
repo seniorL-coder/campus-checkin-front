@@ -1,7 +1,7 @@
 <template>
   <div class="rank-box">
     <div class="title">
-      <p>热门景区排行</p>
+      <p>活动排行</p>
       <img :src="titleImg" alt="" />
     </div>
     <!-- 图形图表的容器 -->
@@ -54,7 +54,7 @@ onMounted(() => {
       axisLabel: {
         color: 'white',
       },
-      data: ['景区A', '景区B', '景区C', '景区D', '景区E', '景区F', '景区G'],
+      data: ['活动A', '活动B', '活动C', '活动D', '活动E', '活动F', '活动G'],
     },
     yAxis: {
       type: 'value',

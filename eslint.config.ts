@@ -31,7 +31,8 @@ export default defineConfigWithVueTs(
         HTMLElement: 'readonly',
         clearTimeout: 'readonly',
         WebSocket: 'readonly',
-        setInterval: 'readonly'
+        setInterval: 'readonly',
+        clearInterval: 'readonly'
       },
     },
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="year-box">
     <div class="title">
-      <p>年度游客量对比</p>
+      <p>年度数据对比</p>
       <img :src="titleImg" alt="" />
     </div>
     <div class="charts" ref="charts" />
@@ -39,7 +39,7 @@ onMounted(() => {
       axisLabel: {
         color: 'white',
       },
-      data: ['景区A', '景区B', '景区C', '景区D', '景区E', '景区F', '景区G'],
+      data: ['活动A', '活动B', '活动C', '活动D', '活动E', '活动F', '活动G'],
     },
     yAxis: {
       show: true,

@@ -222,11 +222,6 @@ const onSubmit = async () => {
         <el-input v-model="form.title" />
       </el-form-item>
 
-      <el-form-item label="签到半径" prop="radius">
-        <el-input-number v-model="form.radius" :min="10" />
-        <span style="margin-left: 10px">米</span>
-      </el-form-item>
-
       <el-form-item label="签到地点" prop="address">
         <el-input v-model="form.address" readonly placeholder="请点击右侧按钮选择坐标">
           <template #append>
@@ -235,6 +230,11 @@ const onSubmit = async () => {
             </el-button>
           </template>
         </el-input>
+      </el-form-item>
+
+      <el-form-item label="签到半径" prop="radius">
+        <el-input-number v-model="form.radius" :min="10" />
+        <span style="margin-left: 10px">米</span>
       </el-form-item>
 
       <el-form-item label="目标班级" prop="targetClasses">
